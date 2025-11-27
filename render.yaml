@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: promanager-backend
+    env: node
+    plan: free
+    region: oregon
+    branch: main
+    root: backend
+    buildCommand: "npm install"
+    startCommand: "npm start"

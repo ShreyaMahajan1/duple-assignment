@@ -19,11 +19,13 @@ app.use('/admin', adminRout)
 const employeeRout = require('./server/routes/employeeRoutes')
 app.use('/employee', employeeRout)
 
-app.listen(5000, (err) => {
+const PORT = process.env.PORT || 5000
+
+app.listen(PORT, (err) => {
     if (err) {
         console.log("Error Occured", err)
     }
     else {
-        console.log("Server is running")
+        console.log("Server is running on port", PORT)
     }
 })
