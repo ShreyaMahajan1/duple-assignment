@@ -86,6 +86,10 @@ web_modules/
 # Next.js build output
 .next
 out
+ 
+# Ignore React build and dependencies for the local frontend folder with space/paren
+frontend (2)/build/
+frontend (2)/node_modules/
 
 # Nuxt.js build / generate output
 .nuxt
