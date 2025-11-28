@@ -18,7 +18,6 @@ The project is deployed end-to-end:
 - ⚡ REST API powered by **Node.js + Express**
 - 📦 Environment-based configuration for local & production
 
-_(You can extend this section later with exact app features – auth, tasks, dashboard, etc.)_
 
 ---
 
