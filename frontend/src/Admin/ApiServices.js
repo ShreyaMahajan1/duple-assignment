@@ -1,7 +1,7 @@
 import axios from "axios";
 // export const BASE_URL="https://kizaapi.ksesystem.com/"
 import * as qs from "qs";
-export const BASE_URL="http://localhost:5000/"
+export const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000/"
 class ApiServices{
     getToken(){
         let obj={
