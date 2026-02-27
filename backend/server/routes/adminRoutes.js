@@ -6,6 +6,8 @@ const userController = require('../apis/user/userController')
 const subcatController = require('../apis/subCategory/subcatController')
 const employeeController = require('../apis/employee/employeeController')
 const taskController = require('../apis/task/taskController')
+const taskControllerEnhanced = require('../apis/task/taskControllerEnhanced')
+const boardController = require('../apis/board/boardController')
 const teamController = require('../apis/projectTeam/teamController')
 const coinsController = require('../apis/coins/coinsController')
 const dashboardController = require('../apis/dashboard/dashboardController')
@@ -15,15 +17,11 @@ const chatController = require('../apis/chat/chatController')
 //login 
 rout.post('/login', userController.login)
 
-
-
-
 rout.post('/category/single', categoryController.singleCategory)
 rout.post('/category/all', categoryController.allCategory)
 rout.post('/subcategory/single', subcatController.singleSubcat)
 rout.post('/subcategory/all', subcatController.allSubcat)
 rout.use(require('../middleware/tokenChecker'))
-
 
 //admin Dashboard
 rout.post('/dashboard', dashboardController.adminDashboard)
@@ -106,9 +104,19 @@ const taskUpload = multer({storage : taskStorage})
 
 rout.post('/task/add', taskUpload.single('attachment'), taskController.addTask)
 rout.post('/task/all', taskController.allTask)
+rout.get('/task/all', taskControllerEnhanced.allTask) // Enhanced with pagination & filters
 rout.post('/task/single', taskController.singleTask)
 rout.post('/task/update', taskUpload.single('attachment'), taskController.updateTask)
 rout.post('/task/delete', taskController.deleteTask)
+rout.post('/task/comment', taskControllerEnhanced.addComment) // Add comment to task
+
+
+//board management
+rout.post('/board/add', boardController.addBoard)
+rout.post('/board/all', boardController.allBoards)
+rout.post('/board/single', boardController.singleBoard)
+rout.post('/board/update', boardController.updateBoard)
+rout.post('/board/delete', boardController.deleteBoard)
 
 
 //view submit work

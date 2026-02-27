@@ -35,7 +35,7 @@ const AddCategory = () => {
           setload(true);
           setTimeout(() => {
             
-            nav("/ManageCategory");
+            nav("/admin/manage-category");
           }, 3000);
         } else{
           toast.error("Something went wrong");

@@ -43,7 +43,7 @@ const AddProject = () => {
         console.log(res);
         setload(true);
         setTimeout(() => {
-          nav("/ManageProject");
+          nav("/admin/manage-project");
         }, 2000);
         toast.success('Project added successfully.');
         setNewProjectName("")

@@ -24,6 +24,7 @@ const ManageTask = () => {
   const [description, setNewDescription] = useState('');
   const [deadline, setdeadline] = useState('');
   const [subcategory, setsubcategory] = useState('');
+  const [taskStatus, setTaskStatus] = useState('Pending');
   // const [newEmployeeJoindate, setNewEmployeeJoinDate] = useState('');
   const [imageFile, setImageFile] = useState(null);
   const [imageName, setImageName] = useState('');
@@ -39,26 +40,32 @@ const ManageTask = () => {
     setImageName(file.name);
   };
   useEffect(()=>{
+    setload(true);
     var token = sessionStorage.getItem("token")
     ApiServices.getAlllTasks(null,{headers : {authorization:token}})
     .then(res =>{
       console.log("all tasks",res);
       setalltasks(res.data.data);
+      setload(false);
+    })
+    .catch(err => {
+      console.error(err);
+      setload(false);
     })
   },[isUpdate])
   useEffect(()=>{
     var token = sessionStorage.getItem("token");
-    ApiServices.getAllprojects(null,{Headers:{authorization:token}})
+    ApiServices.getAllprojects(null,{headers:{authorization:token}})
     .then((res)=>{
       console.log("all projects",res);
       setallprojects(res.data.data);
     })
-    ApiServices.getEmployee(null,{Headers:{authorization:token}})
+    ApiServices.getEmployee(null,{headers:{authorization:token}})
     .then((res)=>{
       console.log("all Employess",res);
       setEmployeesss(res.data.data);
     })
-    ApiServices.getSubCategory(null,{Headers:{authorization:token}})
+    ApiServices.getSubCategory(null,{headers:{authorization:token}})
     .then((res)=>{
       console.log("all Subcategories",res);
       setsubcategoriess(res.data.data);
@@ -79,8 +86,9 @@ const ManageTask = () => {
           setEmployee(res.data.data.employeeId)
           settitle(res.data.data.title)
           setNewDescription(res.data.data.description)
-          // setdeadline(res.data.data.deadline)
+          setdeadline(res.data.data.deadline)
           setsubcategory(res.data.data.subcategoryId)
+          setTaskStatus(res.data.data.progress || 'Pending')
           setImageFile(res.data.data.attachment)
           // setNewEmployeeName(res.data.data.name);
           // setNewEmployeeEmail(res.data.data.email);
@@ -117,6 +125,7 @@ const ManageTask = () => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('deadline',deadline);
+    formData.append('progress', taskStatus);
     // formData.append('joiningdate', newEmployeeJoindate);
     if (imageFile) {
       formData.append('attachment', imageFile);
@@ -124,7 +133,7 @@ const ManageTask = () => {
 
   var token = sessionStorage.getItem("token")
   console.log("token is",token)
-  ApiServices.UpdateTaskk(formData,{Headers:{authorization:token}})
+  ApiServices.UpdateTaskk(formData,{headers:{authorization:token}})
   .then(res =>{
     if(res.data.success == true){
       console.log(res);
@@ -201,12 +210,28 @@ const ManageTask = () => {
           </ol>
         </nav>
       </div>
+      {load && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <ClipLoader loading={load} size={100} color="#0891b2" />
+        </div>
+      )}
       <ToastContainer/>
       <div className="container">
-      <ClipLoader loading={load}  size={100} cssOverride={obj}/>
         <div className="row justify-content-center">
           <div className="col-lg-12 mt-5">
-            <table className="table table-hover table-responsive table-striped">
+            <div className="table-responsive">
+              <table className="table table-hover table-striped">
               <thead className="table-dark">
 
                 <tr>
@@ -248,6 +273,7 @@ const ManageTask = () => {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </div>
@@ -328,6 +354,13 @@ const ManageTask = () => {
                         </>
                       ))
                   }
+              </select>
+              <label>Task Status</label>
+              <select value={taskStatus} className='form-control mb-3'
+                onChange={(e) => setTaskStatus(e.target.value)}>
+                  <option value="Pending">Pending (To Do)</option>
+                  <option value="Working">Working (In Progress)</option>
+                  <option value="Complete">Complete (Done)</option>
               </select>
               <label>Image</label>
               <input

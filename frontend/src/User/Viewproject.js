@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ApiServices, { BASE_URL } from '../Admin/ApiServices';
+import { ClipLoader } from 'react-spinners';
 
 const ViewProject = () => {
   const [projects, setProjects] = useState([]);
@@ -31,6 +32,23 @@ const ViewProject = () => {
   };
 
   return (
+    <>
+      {loading && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <ClipLoader loading={loading} size={100} color="#0891b2" />
+        </div>
+      )}
     <main id="main" className="main">
       <div className="pagetitle">
         <h1>Project View</h1>
@@ -48,11 +66,10 @@ const ViewProject = () => {
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <>
           <div className="row">
             {projects.map((project) => (
-            <div className='col-md-4'>
-              <div className="card mb-3" key={project.id}>
+            <div className='col-md-4' key={project.id}>
+              <div className="card mb-3">
                 <div className="card-body d-flex justify-content-between">
                   <div>
                     <img src={BASE_URL+project.projectId.attachment} className='img-fluid h-50 w-100 mt-4'></img>
@@ -85,11 +102,10 @@ const ViewProject = () => {
             </div>
             ))}
           </div>
-            
-          </>
         )}
       </div>
     </main>
+    </>
   );
 };
 

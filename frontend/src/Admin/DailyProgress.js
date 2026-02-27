@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Spinner, Card } from 'react-bootstrap';
 import ApiServices, { BASE_URL } from './ApiServices';
 import { ToastContainer, toast } from 'react-toastify';
+import { ClipLoader } from 'react-spinners';
 
 const CombinedComponent = () => {
   const [loading, setLoading] = useState(true);
@@ -12,11 +12,6 @@ const CombinedComponent = () => {
   const [message, setMessage] = useState('');
   const [userId, setUserId] = useState('');
   const [type, setType] = useState('');
-  const [load,setload]=useState(false);
-  let obj = {
-    margin:"0 auto",
-    display:"block"
-  }
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -28,6 +23,7 @@ const CombinedComponent = () => {
       })
       .catch((err) => {
         console.error(err);
+        setLoading(false);
       });
   }, []);
 
@@ -58,6 +54,23 @@ const CombinedComponent = () => {
   
 
   return (
+    <>
+      {loading && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <ClipLoader loading={loading} size={100} color="#0891b2" />
+        </div>
+      )}
     <main id="main" className="main">
       <div>
         <div className="pagetitle">
@@ -74,11 +87,8 @@ const CombinedComponent = () => {
         <div>
           <ToastContainer/>
           <h2 className="mt-4 mb-3">Daily Progress</h2>
-          {loading ? (
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          ) : tasks && tasks.length > 0 ? (
+          {tasks && tasks.length > 0 ? (
+            <div className="table-responsive">
             <table className='table table-bordered '>
               <thead className='table-dark'>
                 <tr>
@@ -112,40 +122,57 @@ const CombinedComponent = () => {
                     <td>{task.progress}</td>
                     {/* <td>{userId}</td> */}
                     <td>
-                      <div className='row'>
-                        <div className='col-md-12'>
-                          <form
-                            onSubmit={(e) => {
-                              e.preventDefault();
-                              handleProgress(task);
-                            }}
-                          >
-                            <label>Coins to add/reduct: </label>
-                            <input type='number' className='w-25 me-2' min={0} minLength={2} maxLength={2} onChange={(e) => setCoinCount(e.target.value)} />
-                            <label className='mt-3'>Type of coins:</label>
-                            <select required='' onChange={(e) => setType(e.target.value)} className=''>
-                              <option disabled selected>select</option>
-                              <option value='warning' className='bg-danger'>
-                                Warning
-                              </option>
-                              <option value='add' className='bg-success'>
-                                Reward
-                              </option>
+                      <div>
+                        <form
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            handleProgress(task);
+                          }}
+                        >
+                          <div className='mb-2'>
+                            <label className='form-label'>Coins to add/deduct:</label>
+                            <input 
+                              type='number' 
+                              className='form-control' 
+                              min={0} 
+                              minLength={2} 
+                              maxLength={2} 
+                              onChange={(e) => setCoinCount(e.target.value)} 
+                              required
+                            />
+                          </div>
+                          <div className='mb-2'>
+                            <label className='form-label'>Type:</label>
+                            <select 
+                              required 
+                              onChange={(e) => setType(e.target.value)} 
+                              className='form-select'
+                            >
+                              <option value='' disabled selected>Select type</option>
+                              <option value='warning'>Warning</option>
+                              <option value='add'>Reward</option>
                             </select>
-                            <br />
-                            <label>Message</label>
-                            <textarea className='form-control' onChange={(e) => setMessage(e.target.value)}></textarea>
-                            <button className='btn btn-primary ms-2 mt-2' type='submit'>
-                              Send
-                            </button>
-                          </form>
-                        </div>
+                          </div>
+                          <div className='mb-2'>
+                            <label className='form-label'>Message:</label>
+                            <textarea 
+                              className='form-control' 
+                              rows='2'
+                              onChange={(e) => setMessage(e.target.value)}
+                              required
+                            ></textarea>
+                          </div>
+                          <button className='btn btn-primary btn-sm w-100' type='submit'>
+                            Send
+                          </button>
+                        </form>
                       </div>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            </div>
           ) : (
             <p>No tasks available</p>
           )}
@@ -154,6 +181,7 @@ const CombinedComponent = () => {
         <div></div>
       </div>
     </main>
+    </>
   );
 };
 

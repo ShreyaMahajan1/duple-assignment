@@ -44,6 +44,23 @@ const ViewTask = () => {
   };
 
   return (
+    <>
+      {load && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <ClipLoader loading={load} size={100} color="#0891b2" />
+        </div>
+      )}
     <main id="main" className="main">
       <div className="pagetitle">
         <h1>Manage Task</h1>
@@ -61,8 +78,7 @@ const ViewTask = () => {
           <h2>Task View</h2>
           <div>
                 <ToastContainer/>
-                <ClipLoader loading={load}  size={100} cssOverride={obj}/>
-      <div className={load && "display-screen"}>
+            <div className="table-responsive">
             <table className='table table-bordered'>
               <thead>
                 <tr>
@@ -112,6 +128,7 @@ const ViewTask = () => {
         </div>
       </div>
     </main>
+    </>
   );
 };
 

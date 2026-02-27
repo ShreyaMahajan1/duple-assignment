@@ -14,8 +14,11 @@ export default function UserHome() {
   const [dashboardData, setDashboardData] = useState([]);
   const [load, setload] = useState(false);
   let obj = {
-    margin: "0 auto",
-    display: "block"
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    zIndex: 9999
   }
   useEffect(() => {
     let emptoken = sessionStorage.getItem('Emptoken');
@@ -40,9 +43,23 @@ export default function UserHome() {
 
     <>
       <ToastContainer />
-      <ClipLoader loading={load} size={100} cssOverride={obj} />
-      <div className={load && "display-screen"}>
-        <main id="main" className="main">
+      {load && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <ClipLoader loading={load} size={100} color="#0891b2" />
+        </div>
+      )}
+      <main id="main" className="main">
           <div className="pagetitle" >
             <h1>Dashboard</h1>
             <nav>
@@ -151,7 +168,6 @@ export default function UserHome() {
             </div>
           </section>
         </main>
-      </div>
 
       <main id="main" className="main">
         

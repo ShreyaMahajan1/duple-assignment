@@ -1,0 +1,383 @@
+/* Mobile Responsive Styles */
+
+/* Reduce text sizes on mobile */
+@media (max-width: 768px) {
+  /* Page titles */
+  .pagetitle h1 {
+    font-size: 1.5rem !important;
+  }
+
+  /* Card titles */
+  .card-title {
+    font-size: 1rem !important;
+  }
+
+  /* General headings */
+  h1 {
+    font-size: 1.75rem !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  h3 {
+    font-size: 1.25rem !important;
+  }
+
+  h4 {
+    font-size: 1.1rem !important;
+  }
+
+  h5 {
+    font-size: 1rem !important;
+  }
+
+  h6 {
+    font-size: 0.9rem !important;
+  }
+
+  /* Body text */
+  body {
+    font-size: 0.875rem !important;
+  }
+
+  /* Table text */
+  .table {
+    font-size: 0.75rem !important;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.4rem 0.3rem !important;
+    white-space: nowrap !important;
+  }
+
+  .table thead th {
+    font-size: 0.7rem !important;
+  }
+
+  /* Table images */
+  .table img {
+    max-width: 60px !important;
+    height: auto !important;
+  }
+
+  /* Button text */
+  .btn {
+    font-size: 0.75rem !important;
+    padding: 0.3rem 0.6rem !important;
+  }
+
+  .btn-sm {
+    font-size: 0.7rem !important;
+    padding: 0.2rem 0.4rem !important;
+  }
+
+  /* Button icons */
+  .btn svg,
+  .btn i {
+    font-size: 0.8rem !important;
+  }
+
+  /* Form elements */
+  .form-control,
+  .form-select {
+    font-size: 0.875rem !important;
+    padding: 0.5rem !important;
+  }
+
+  .form-label {
+    font-size: 0.875rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    font-size: 0.75rem !important;
+  }
+
+  .breadcrumb-item {
+    font-size: 0.75rem !important;
+  }
+
+  /* Reduce spacing */
+  .container {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  .main {
+    padding: 0.75rem !important;
+  }
+
+  .card {
+    margin-bottom: 1rem !important;
+  }
+
+  .card-body {
+    padding: 0.75rem !important;
+  }
+
+  /* Reduce margins */
+  .mb-3 {
+    margin-bottom: 0.5rem !important;
+  }
+
+  .mt-3 {
+    margin-top: 0.5rem !important;
+  }
+
+  .mb-4 {
+    margin-bottom: 0.75rem !important;
+  }
+
+  .mt-4 {
+    margin-top: 0.75rem !important;
+  }
+
+  .mb-5 {
+    margin-bottom: 1rem !important;
+  }
+
+  .mt-5 {
+    margin-top: 1rem !important;
+  }
+
+  /* Reduce padding */
+  .p-3 {
+    padding: 0.5rem !important;
+  }
+
+  .p-4 {
+    padding: 0.75rem !important;
+  }
+
+  .p-5 {
+    padding: 1rem !important;
+  }
+
+  /* Modal adjustments */
+  .modal-title {
+    font-size: 1rem !important;
+  }
+
+  .modal-body {
+    padding: 0.75rem !important;
+  }
+
+  .modal-footer {
+    padding: 0.5rem !important;
+  }
+
+  /* Dashboard cards */
+  .info-card h6 {
+    font-size: 1.1rem !important;
+  }
+
+  .info-card .card-icon {
+    width: 45px !important;
+    height: 45px !important;
+    font-size: 1.3rem !important;
+  }
+
+  /* Sidebar adjustments */
+  .sidebar {
+    font-size: 0.875rem !important;
+  }
+
+  .sidebar-nav .nav-link {
+    font-size: 0.875rem !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  /* Image sizes */
+  .img-fluid {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Profile card */
+  .profile-card img {
+    max-width: 100px !important;
+  }
+
+  /* Reduce row gaps */
+  .row {
+    margin-left: -0.4rem !important;
+    margin-right: -0.4rem !important;
+  }
+
+  .row > * {
+    padding-left: 0.4rem !important;
+    padding-right: 0.4rem !important;
+  }
+
+  /* List group items */
+  .list-group-item {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.875rem !important;
+  }
+
+  /* Badge sizes */
+  .badge {
+    font-size: 0.7rem !important;
+    padding: 0.2rem 0.4rem !important;
+  }
+
+  /* Alert sizes */
+  .alert {
+    padding: 0.75rem !important;
+    font-size: 0.875rem !important;
+  }
+
+  /* Toast notifications */
+  .Toastify__toast {
+    font-size: 0.875rem !important;
+    padding: 0.75rem !important;
+  }
+
+  /* Action buttons in tables */
+  .btn-group {
+    display: flex !important;
+    gap: 0.2rem !important;
+  }
+
+  .btn-group .btn {
+    padding: 0.25rem 0.4rem !important;
+  }
+
+  /* Main content adjustments */
+  #main {
+    min-height: auto !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  /* Landing page footer */
+  .landing-footer {
+    padding: 1.5rem 0 !important;
+    font-size: 0.8rem !important;
+  }
+
+  .landing-footer h5 {
+    font-size: 0.95rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .landing-footer p,
+  .landing-footer a {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Extra small devices (phones in portrait, less than 576px) */
+@media (max-width: 576px) {
+  .pagetitle h1 {
+    font-size: 1.25rem !important;
+  }
+
+  h1 {
+    font-size: 1.4rem !important;
+  }
+
+  h2 {
+    font-size: 1.2rem !important;
+  }
+
+  .table {
+    font-size: 0.65rem !important;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.3rem 0.2rem !important;
+  }
+
+  .table thead th {
+    font-size: 0.65rem !important;
+  }
+
+  /* Even smaller images on very small screens */
+  .table img {
+    max-width: 50px !important;
+  }
+
+  .btn {
+    font-size: 0.7rem !important;
+    padding: 0.25rem 0.5rem !important;
+  }
+
+  .btn-sm {
+    font-size: 0.65rem !important;
+    padding: 0.2rem 0.3rem !important;
+  }
+
+  .main {
+    padding: 0.5rem !important;
+  }
+
+  .card-body {
+    padding: 0.5rem !important;
+  }
+
+  .container {
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+  }
+
+  /* Stack buttons vertically on very small screens if needed */
+  .btn-group-vertical {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.2rem !important;
+  }
+
+  .btn-group-vertical .btn {
+    width: 100% !important;
+  }
+
+  /* Breadcrumb even smaller */
+  .breadcrumb {
+    font-size: 0.7rem !important;
+  }
+
+  /* Pagetitle spacing */
+  .pagetitle {
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* Main content */
+  #main {
+    min-height: auto !important;
+    padding-bottom: 1rem !important;
+  }
+
+  /* Landing footer compact */
+  .landing-footer {
+    padding: 1rem 0 !important;
+    font-size: 0.75rem !important;
+  }
+
+  .landing-footer h5 {
+    font-size: 0.85rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  .landing-footer p,
+  .landing-footer a {
+    font-size: 0.7rem !important;
+    line-height: 1.3 !important;
+  }
+}
+
+/* Landscape phones */
+@media (max-width: 768px) and (orientation: landscape) {
+  .main {
+    padding: 0.5rem !important;
+  }
+
+  .pagetitle h1 {
+    font-size: 1.3rem !important;
+  }
+}
+

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { PacmanLoader } from "react-spinners";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import ApiServices from './ApiServices';
 
 export default function Login() {
@@ -29,9 +29,9 @@ export default function Login() {
           sessionStorage.setItem("email", res.data.data.email);
          
           if(res.data.data.userType==1){
+          toast.success(res.data.message);
           setTimeout(() => {
-            // toast.success(res.data.message)
-            nav("/Home");
+            nav("/admin/home");
           }, 500);
         }else{
           toast.error("You are not allowed to access this page")
@@ -50,6 +50,9 @@ export default function Login() {
       .catch((err) => {
         console.log(err);
         toast.warning("something went wrong");
+        setTimeout(() => {
+          setLoad(false);
+        }, 1500);
       });
   };
 
@@ -60,8 +63,25 @@ export default function Login() {
 
   return (
     <>
+      <ToastContainer/>
       <main>
         <div className="container">
+          {load && (
+            <div style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 9999
+            }}>
+              <PacmanLoader color="#0891b2" size={40} loading={load} />
+            </div>
+          )}
 
           <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <div className="container">
@@ -79,8 +99,7 @@ export default function Login() {
                    
                   </div>
                 
-                  <PacmanLoader color="blue" size={40} cssOverride={obj} loading={load} />
-                  <section className={load === true ? "d-none" : "my-5"}>
+                  <section className="my-5">
                     <div className="card mb-3">
                       <div className="card-body">
                         <div className="pt-4 pb-2">
@@ -140,7 +159,7 @@ export default function Login() {
                               Login
                             </button>
                             
-                             If you are Employee? <h4 className='btn  p-2 mt-2'><Link to={"/user"}>Employee Login</Link></h4>
+                             If you are Employee? <h4 className='btn  p-2 mt-2'><Link to={"/user-login"}>Employee Login</Link></h4>
                           </div>
                        
                         </form>

@@ -1,10 +1,14 @@
 const userModel = require('../user/userModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const SECRET = "29834hdiusefh&%&^%#&^jshd8w94323J*#("
+const RefreshToken = require('../auth/refreshTokenModel')
+const { generateAccessToken, generateRefreshToken } = require('../auth/authController')
+require('dotenv').config()
+
+const SECRET = process.env.JWT_SECRET || "29834hdiusefh&%&^%#&^jshd8w94323J*#("
 
 //user login
-const login = (req, res) => {
+const login = async (req, res) => {
     let validation = ""
     if (!req.body.email) {
         validation += "Email is required"
@@ -13,64 +17,74 @@ const login = (req, res) => {
         validation += "Password is required"
     }
     if (!!validation) {
-        res.send({
+        return res.status(400).json({
             success: false,
             status: 400,
             message: "Validation Error : " + validation
         })
     }
-    else {
-        userModel.findOne({ email: req.body.email }).exec()
-            .then((userData) => {
-                if (userData == null) {
-                    res.send({
-                        success: false,
-                        status: 404,
-                        message: "Account Does not exist"
-                    })
-                }
-                else {
-                    if (bcrypt.compareSync(req.body.password, userData.password)) {
-                        if (userData.status) {
-                            let payload = {
-                                _id:userData._id,
-                                name:userData.name,
-                                email:userData.email,
-                                userType: userData.userType
-                            }
-                            let token = jwt.sign(payload, SECRET)
-                            res.send({
-                                success: true,
-                                status: 200,
-                                message: "LoggedIn Successfully",
-                                data: userData,
-                                token:token
-                            })
-                        }
-                        else {
-                            res.send({
-                                success: false,
-                                status: 400,
-                                message: "Account InActive, Contact Admin"
-                            })
-                        }
-                    }
-                    else {
-                        res.send({
-                            success: false,
-                            status: 400,
-                            message: "Invalid Credentials"
-                        })
-                    }
-                }
+    
+    try {
+        const userData = await userModel.findOne({ email: req.body.email }).exec()
+        
+        if (userData == null) {
+            return res.status(404).json({
+                success: false,
+                status: 404,
+                message: "Account Does not exist"
             })
-            .catch((err) => {
-                res.send({
-                    success: false,
-                    status: 500,
-                    message: err.message
-                })
+        }
+        
+        if (!bcrypt.compareSync(req.body.password, userData.password)) {
+            return res.status(400).json({
+                success: false,
+                status: 400,
+                message: "Invalid Credentials"
             })
+        }
+        
+        if (!userData.status) {
+            return res.status(400).json({
+                success: false,
+                status: 400,
+                message: "Account InActive, Contact Admin"
+            })
+        }
+        
+        let payload = {
+            _id: userData._id,
+            name: userData.name,
+            email: userData.email,
+            userType: userData.userType
+        }
+        
+        let token = generateAccessToken(payload)
+        let refreshToken = generateRefreshToken(payload)
+        
+        // Save refresh token to database
+        const expiresAt = new Date()
+        expiresAt.setDate(expiresAt.getDate() + 7) // 7 days
+        
+        await RefreshToken.create({
+            userId: userData._id,
+            token: refreshToken,
+            expiresAt: expiresAt
+        })
+        
+        res.status(200).json({
+            success: true,
+            status: 200,
+            message: "LoggedIn Successfully",
+            data: userData,
+            token: token,
+            refreshToken: refreshToken
+        })
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            status: 500,
+            message: err.message
+        })
     }
 }
 

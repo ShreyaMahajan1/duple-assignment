@@ -6,29 +6,26 @@ import { ClipLoader } from 'react-spinners';
 
 const ViewProjectTeam = () => {
   const [load,setload]=useState(true);
-  let obj = {
-    margin:"0 auto",
-    display:"block"
-  }
   const [initialProjectTeam, setInitialProjectTeam] = useState([]);
 
   // setInitialProjectTeam(res.data.data);
 
   useEffect(() => {
     const fetchProjects = () => {
-      setTimeout(() => {
-        let emptoken = sessionStorage.getItem("Emptoken");
-        ApiServices.GetProjectTeamforEmp({headers:{authorization:emptoken}})
-        .then(res =>{
-          console.log(res.data.data);
-          // setProjects(res.data.data);
-          let data = res.data.data;
-          const filteredData = data.filter(item => item.employees.some(emp => emp._id === sessionStorage.getItem("employeeId")));
-          console.log("filterdata",filteredData);
-          setInitialProjectTeam(filteredData);
-        })
-      }, 1000);
-      setload(false);
+      let emptoken = sessionStorage.getItem("Emptoken");
+      ApiServices.GetProjectTeamforEmp({headers:{authorization:emptoken}})
+      .then(res =>{
+        console.log(res.data.data);
+        let data = res.data.data;
+        const filteredData = data.filter(item => item.employees.some(emp => emp._id === sessionStorage.getItem("employeeId")));
+        console.log("filterdata",filteredData);
+        setInitialProjectTeam(filteredData);
+        setload(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setload(false);
+      });
     };
 
     fetchProjects();
@@ -43,6 +40,23 @@ const ViewProjectTeam = () => {
   };
 
   return (
+    <>
+      {load && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <ClipLoader loading={load} size={100} color="#0891b2" />
+        </div>
+      )}
     <main id="main" className="main">
       <div className="pagetitle">
         <h1>Project Teams</h1>
@@ -56,8 +70,6 @@ const ViewProjectTeam = () => {
         </nav>
       </div>
       <ToastContainer position="top-center" autoClose={3000} />
-        <ClipLoader loading={load}  size={100} cssOverride={obj}/>
-      <div className={load && "display-screen"}>
       <div className="container">
         <h1> Project Team</h1>
         <div className="card mt-2">
@@ -104,8 +116,8 @@ const ViewProjectTeam = () => {
         </div>
         {/* <button type="button" className="btn btn-primary mt-3" onClick={handleUpdate}>Update</button> */}
       </div>
-      </div>
     </main>
+    </>
   );
 };
 export default ViewProjectTeam;

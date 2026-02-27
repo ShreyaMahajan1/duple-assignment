@@ -31,6 +31,7 @@ export default function SubCategory() {
       {/* Subcategory table */}
       <div className="container">
         <h1>Subcategories</h1>
+        <div className="table-responsive">
         <table className="table table-striped table-bordered table-hover">
           <thead className="thead thead-dark">
             <tr>
@@ -59,12 +60,13 @@ export default function SubCategory() {
                         </td>
                 <td>{subcategory.categoryId?.name}</td>
                 <td>
-                <Link to={"/UpdateSubCategory/"+subcategory._id}className="btn btn-success">Edit</Link>
+                <Link to={"/admin/update-subcategory/"+subcategory._id}className="btn btn-success">Edit</Link>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        </div>
       </div></main>
     </>
   );

@@ -135,7 +135,8 @@ const ManageCategory = () => {
             <ToastContainer/>
       <ClipLoader loading={load}  size={100} cssOverride={obj}/>
       <div className={load && "display-screen"}>
-              <table className="table table-hover table-striped">
+        <div className="table-responsive">
+          <table className="table table-hover table-striped">
                 <thead className="table-dark">
                   <tr>
                     <th>Sr. No</th>
@@ -202,6 +203,7 @@ const ManageCategory = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
       {editingId !== null && (
         <div className="modal fade show" style={{ display: 'block' }}>

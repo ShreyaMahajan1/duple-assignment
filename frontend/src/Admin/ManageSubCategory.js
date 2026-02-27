@@ -82,7 +82,7 @@ const ManageSubcategory = () => {
         // setload(true);
         toast.success("Subcategory Updated");
         setTimeout(()=> {
-          nav('/ManageSubCategory');
+          nav('/admin/manage-subcategory');
           window.location.reload();
           setIsUpdate(true);
         }, 2000);
@@ -107,7 +107,7 @@ const ManageSubcategory = () => {
     }
     let confirmation = window.confirm("Are you sure to delete?")
     if (confirmation) {
-      ApiServices.deleteSubcategory(data,{Headers:{authorization:token}})
+      ApiServices.deleteSubcategory(data,{headers:{authorization:token}})
         .then((res) => {
           // Remove deleted subcategory from subcategories state
           toast.success(res.data.message);
@@ -161,7 +161,7 @@ const ManageSubcategory = () => {
       <div className={load && "display-screen"}>
         <div className="row justify-content-center">
           <div className="col-lg-12 mt-5">
-            <div>
+            <div className="table-responsive">
               <table className="table table-hover table-striped">
                 <thead className="table-dark">
                   <tr>

@@ -175,6 +175,9 @@ const updateTask = (req, res) => {
                     if (!!req.body.deadline) {
                         result.deadline = req.body.deadline
                     }
+                    if (!!req.body.progress) {
+                        result.progress = req.body.progress
+                    }
 
                     result.save()
                         .then((updatedTask) => {

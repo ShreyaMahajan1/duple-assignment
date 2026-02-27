@@ -7,10 +7,6 @@ const UserCoinDisplay = ({ rewards, warnings }) => {
   const [coins, setCoins] = useState('');
   const [allCoins, setAllCoins] = useState([]);
   const [load,setLoad]=useState(true)
-  const obj={
-    display:"block",
-    margin:"0 auto"
-  }
   
   useEffect(() => {
     let emptoken = sessionStorage.getItem('Emptoken');
@@ -44,8 +40,22 @@ const UserCoinDisplay = ({ rewards, warnings }) => {
 
   return (
     <>
-     <ClipLoader loading={load}  size={100} cssOverride={obj}/>
-      <div className={load && "display-screen"}>
+     {load && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <ClipLoader loading={load} size={100} color="#0891b2" />
+        </div>
+      )}
     <main id="main" className="main">
       <div className="row">
         <div className="col">
@@ -95,7 +105,6 @@ const UserCoinDisplay = ({ rewards, warnings }) => {
         </div>
       </div>
     </main>
-    </div>
     </>
   );
 };

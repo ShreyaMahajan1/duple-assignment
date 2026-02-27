@@ -7,10 +7,11 @@ const categoryController = require("../apis/category/categoryController")
 const subcatController = require('../apis/subCategory/subcatController')
 const teamController = require('../apis/projectTeam/teamController')
 const taskController = require('../apis/task/taskController')
+const taskControllerEnhanced = require('../apis/task/taskControllerEnhanced')
+const boardController = require('../apis/board/boardController')
 const submitController = require('../apis/submit/submitController')
 const chatController = require('../apis/chat/chatController')
 const dashboardController = require('../apis/dashboard/dashboardController')
-
 const coinController = require('../apis/coins/coinsController')
 //login router
 rout.post('/login', userController.login)
@@ -59,8 +60,15 @@ rout.post('/projectteam/single', teamController.singleTeam)
 
 //task 
 rout.post('/task/all', taskController.allTask)
+rout.get('/task/all', taskControllerEnhanced.allTask) // Enhanced with pagination & filters
 rout.post('/task/single', taskController.singleTask)
 rout.post('/task/progress', taskController.taskProgress)
+rout.post('/task/comment', taskControllerEnhanced.addComment) // Add comment to task
+
+
+//board
+rout.post('/board/all', boardController.allBoards)
+rout.post('/board/single', boardController.singleBoard)
 
 
 //work submittion

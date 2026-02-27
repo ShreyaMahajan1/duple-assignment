@@ -48,14 +48,14 @@ const AddEmployee = () => {
     }
     var token = sessionStorage.getItem("token")
     // console.log("token is",token)
-    ApiServices.AddEmployee(formData,{Headers:{authorization:token}})
+    ApiServices.AddEmployee(formData,{headers:{authorization:token}})
       .then((res) => {
         console.log(res);
         if(res.data.success ==true){
           toast.success(res.data.message);
           setload(true);
           setTimeout(() => {
-            nav("/ManageEmployee");
+            nav("/admin/manage-employee");
           }, 2000);
           setNewEmployeeContact('')
           setNewEmployeeEmail('')

@@ -41,7 +41,7 @@ export default function UserLogin() {
           if (res.data.data.userType == 2) {
             toast.success("Login successfully");
             setTimeout(() => {
-              nav("/User/Dashboard");
+              nav("/user/dashboard");
             }, 500);
           }
           else {
@@ -61,6 +61,9 @@ export default function UserLogin() {
       .catch((err) => {
         console.log(err);
         toast.error("Something went wrong");
+        setTimeout(() => {
+          setLoad(false);
+        }, 1500);
       });
   };
 
@@ -68,14 +71,26 @@ export default function UserLogin() {
 
 
   return (
-
-
     <>
+      <ToastContainer />
       <main>
-        <ToastContainer />
-        <ClipLoader loading={load} size={100} cssOverride={obj} />
-        <div className={load && "display-screen"}>
-          <div className="container">
+        {load && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 9999
+          }}>
+            <PacmanLoader color="#0891b2" size={40} loading={load} />
+          </div>
+        )}
+        <div className="container">
 
             <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
               <div className="container">
@@ -92,8 +107,7 @@ export default function UserLogin() {
                     </div>
                     {/* End Logo */}
 
-                    <PacmanLoader color="blue" size={40} cssOverride={obj} loading={load} />
-                    <section className={load == true ? "d-none" : "my-5"}>
+                    <section className="my-5">
                       <div className="card mb-3">
                         <div className="card-body">
                           <div className="pt-4 pb-2">
@@ -148,7 +162,7 @@ export default function UserLogin() {
                               <button className="btn btn-primary w-100" type="submit" >
                                 Login
                               </button>
-                              If you are Admin? <h4 className='btn  p-2 mt-2'><Link to={"/"}>Admin Login</Link></h4>
+                              If you are Admin? <h4 className='btn  p-2 mt-2'><Link to={"/admin-login"}>Admin Login</Link></h4>
                             </div>
                           </form>
                         </div>
@@ -160,9 +174,7 @@ export default function UserLogin() {
                 </div>
               </div>
             </section>
-
           </div>
-        </div>
       </main>
 
       {/* End #main */}

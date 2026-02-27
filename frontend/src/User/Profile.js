@@ -141,8 +141,6 @@ export default function Profile() {
       <main id="main" className="main">
         <div className="pagetitle">
           <h1>Profile</h1>
-          <ClipLoader loading={load}  size={100} cssOverride={obj}/>
-      <div className={load && "display-screen"}>
           <nav>
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
@@ -472,7 +470,6 @@ export default function Profile() {
             </div>
           </div>
         </section>
-        </div>
       </main>
       {/* End #main */}
 

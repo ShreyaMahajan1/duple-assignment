@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ApiServices, { BASE_URL } from './ApiServices';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { ClipLoader } from 'react-spinners';
 
 const ManageProjectTeam = () => {
   const [initialProjectTeam, setInitialProjectTeam] = useState([]);
@@ -10,6 +11,7 @@ const ManageProjectTeam = () => {
   const [availableEmployees, setAvailableEmployees] = useState([]);
   const [allEmployees,setAllEmployees]=useState([])
   const [selectedMember, setSelectedMember] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     var token = sessionStorage.getItem("token")
     ApiServices.getEmployee(null, { headers: { authorization: token } })
@@ -28,6 +30,7 @@ const ManageProjectTeam = () => {
       .then((res) => {
         setInitialProjectTeam(res.data.data);
         console.log(res.data.data);
+        setLoading(false);
         if(!!editingId){
           ApiServices.GetProjectTeamSingle({_id:editingId}, { headers: { authorization: sessionStorage.getItem("token") } })
           .then((result)=>{
@@ -46,6 +49,7 @@ const ManageProjectTeam = () => {
       })
       .catch((error) => {
         console.error('Error fetching project team:', error);
+        setLoading(false);
         // Handle error and display a message
       });
   }, [isUpdate]);
@@ -170,6 +174,23 @@ const ManageProjectTeam = () => {
     }
   };
   return (
+    <>
+      {loading && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <ClipLoader loading={loading} size={100} color="#0891b2" />
+        </div>
+      )}
     <main id="main" className="main">
       <div className="pagetitle">
         <h1>Project Teams</h1>
@@ -292,6 +313,7 @@ const ManageProjectTeam = () => {
         </div>
       )}
     </main >
+    </>
   );
 };
 

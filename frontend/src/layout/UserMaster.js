@@ -10,7 +10,7 @@ import UserHeader from "./Userheader";
 export default function UserMaster(){
     const token=sessionStorage.getItem("Emptoken")
     if(!token){
-        return <Navigate to={"/User"}/>
+        return <Navigate to={"/user-login"}/>
     }
     return(
         <>

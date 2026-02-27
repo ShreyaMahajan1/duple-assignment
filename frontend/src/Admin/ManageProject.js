@@ -18,7 +18,7 @@ const ManageProject = () => {
   useEffect(()=>{
     var token = sessionStorage.getItem('token');
     // console.log(token);
-    ApiServices.getAllprojects(null,{Headers:{authorization:token}})
+    ApiServices.getAllprojects(null,{headers:{authorization:token}})
     .then(res =>{
       console.log(res);
       setProjects(res.data.data);
@@ -177,7 +177,8 @@ const ManageProject = () => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-12 mt-5">
-            <table className="table table-hover table-striped">
+            <div className="table-responsive">
+              <table className="table table-hover table-striped">
               <thead className="table-dark">
                 <tr>
                   <th>#</th>
@@ -207,6 +208,7 @@ const ManageProject = () => {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </div>

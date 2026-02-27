@@ -46,7 +46,7 @@ export default function UpdateSubCategory() {
     ApiServices.updateSubCategory(data)
       .then((res) => {
         toast.success(res.data.message);
-        nav("/SubCategory");
+        nav("/admin/subcategory");
       })
       .catch((err) => {
         console.log(err);

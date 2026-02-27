@@ -10,9 +10,11 @@ import { ClipLoader } from 'react-spinners';
 const AddTask = () => {
   const navigate = useNavigate();
   const [allprojects, setAllProjects] = useState([]);
+  const [allboards, setAllBoards] = useState([]);
   const [allemployees, setEmployees] = useState([]);
   const [allsubcategories, setSubcategories] = useState([]);
   const [newProject, setProject] = useState('');
+  const [selectedBoard, setSelectedBoard] = useState('');
   const [newEmployee, setEmployee] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -53,19 +55,40 @@ const AddTask = () => {
       });
   }, []);
   const handleProjec = (e)=>{
-    setProject(e.target.value);
+    const projectId = e.target.value;
+    setProject(projectId);
     console.log("event callled");
+    
+    // Fetch project teams
     ApiServices.GetProjectTeam()
     .then((res)=>{
         console.log(res);
         let resdata = res.data.data;
-        let filterdata = resdata.filter((x)=>{return x.projectId._id == e.target.value});
+        let filterdata = resdata.filter((x)=>{return x.projectId._id == projectId});
         console.log("filterdata is ",filterdata);
         setEmployees(filterdata)
     })
     .catch((err)=>{
           console.log(err);
     })
+    
+    // Fetch boards for selected project
+    var token = sessionStorage.getItem("token");
+    fetch('http://localhost:5000/admin/board/all', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': token
+      },
+      body: JSON.stringify({ projectId: projectId })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        setAllBoards(data.data);
+      }
+    })
+    .catch(err => console.error(err));
   }
   const handleAddEmployee = (e) => {
     e.preventDefault();
@@ -86,6 +109,9 @@ const AddTask = () => {
     formData.append('projectId', newProject);
     formData.append('employeeId', newEmployee);
     formData.append('subcategoryId', subcategory);
+    if (selectedBoard) {
+      formData.append('boardId', selectedBoard);
+    }
     formData.append('title', title);
     formData.append('description', description);
     formData.append('deadline', deadline);
@@ -99,7 +125,7 @@ const AddTask = () => {
         setload(true)
         toast.success(res.data.message);
         setTimeout(() => {
-          nav('/ManageTask');
+          nav('/admin/manage-task');
         }, 2000);
         setProject("")
         setEmployee("")
@@ -138,40 +164,50 @@ const AddTask = () => {
             <div className="col-lg-8 ofset-lg-1">
               <form className="add-employee-form bg-light rounded p-4 shadow">
                 <h3 className="mb-4 mt-2">Add New Task</h3>
-              <label>Select Project</label>
+                
+                <label>Select Project</label>
                 <select
-                    value={newProject}
-                    className='form-control'
-                    onChange={handleProjec}
-                  >
-                    <option disabled={true} selected value="">select Project</option>
-                    {allprojects.length > 0 && allprojects.map((project, i) => (
-                      <option key={project._id} value={project._id}>{project.name}</option>
-                    ))}
-                  </select>
+                  value={newProject}
+                  className='form-control mb-3'
+                  onChange={handleProjec}
+                >
+                  <option disabled={true} selected value="">select Project</option>
+                  {allprojects.length > 0 && allprojects.map((project, i) => (
+                    <option key={project._id} value={project._id}>{project.name}</option>
+                  ))}
+                </select>
+                
                 <label>Select Employee</label>
                 <select
                   value={newEmployee}
-                  className='form-control'
+                  className='form-control mb-3'
                   onChange={(e) => setEmployee(e.target.value)}>
-                <option disabled={true} selected value="">Select Employee</option>
-                 {
-                  allemployees.map((member)=>(
-                    <>
+                  <option disabled={true} selected value="">Select Employee</option>
+                  {
+                    allemployees.map((member)=>(
+                      <>
                         {Array.isArray(member.employees) && member.employees.length > 0 && (
-                       <>
-                          {member.employees?.map(employee => (
-                            <option  value={employee._id}>{employee.name}</option>
-                          ))}
+                          <>
+                            {member.employees?.map(employee => (
+                              <option key={employee._id} value={employee._id}>{employee.name}</option>
+                            ))}
+                          </>
+                        )}
                       </>
-                      )}
-                    </>
-                  ))
-                 }
+                    ))
+                  }
                 </select>
 
-              
-
+                <label>Select Board (Optional)</label>
+                <select
+                  value={selectedBoard}
+                  className='form-control mb-3'
+                  onChange={(e) => setSelectedBoard(e.target.value)}>
+                  <option value="">No Board (General Tasks)</option>
+                  {allboards.map((board) => (
+                    <option key={board._id} value={board._id}>{board.name}</option>
+                  ))}
+                </select>
 
                 <label>Title</label>
                 <input

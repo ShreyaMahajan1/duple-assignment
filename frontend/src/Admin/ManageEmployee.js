@@ -94,7 +94,7 @@ const ManageEmployee = () => {
     }
     var token = sessionStorage.getItem("token")
     console.log("token is",token)
-    ApiServices.ManageEmployee(formData,{Headers:{authorization:token}})
+    ApiServices.ManageEmployee(formData,{headers:{authorization:token}})
     .then(res =>{
       if(res.data.success == true){
 
@@ -181,7 +181,8 @@ const ManageEmployee = () => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-11 mt-5">
-            <table className="table table-hover table-responsive table-striped">
+            <div className="table-responsive">
+              <table className="table table-hover table-striped">
               <thead className="table-dark">
                 <tr>
                   <th>#</th>
@@ -222,6 +223,7 @@ const ManageEmployee = () => {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </div>

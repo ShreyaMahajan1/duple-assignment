@@ -12,8 +12,11 @@ export default function Home() {
   var[totalprojects,setporojects]=useState('')
   const [load,setload]=useState(true);
   let obj = {
-    margin:"0 auto",
-    display:"block"
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    zIndex: 9999
   }
   useEffect(()=>{
     ApiServices.Dashboard(null,{headers:{authorization:sessionStorage.getItem("token")}})
@@ -31,8 +34,22 @@ export default function Home() {
     <>
       
       <ToastContainer/>
-      <ClipLoader loading={load}  size={100} cssOverride={obj}/>
-      <div className={load && "display-screen"}>
+      {load && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <ClipLoader loading={load} size={100} color="#0891b2" />
+        </div>
+      )}
       <main id="main" className="main">
         <div className="pagetitle">
           <h1>Dashboard</h1>
@@ -141,7 +158,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-      </div>
       {/* End #main */}
       
      

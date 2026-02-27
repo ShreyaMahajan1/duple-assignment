@@ -34,14 +34,14 @@ const AddSubcategory = () => {
     var token = sessionStorage.getItem("token")
     console.log("token is ",token);
 
-    ApiServices.Addsubcategory(data,{Headers:{authorization:token}})
+    ApiServices.Addsubcategory(data,{headers:{authorization:token}})
       .then((res) => {
         console.log(res);
         if (res.data.success === true){
           toast.success(res.data.message);
           setload(true)
           setTimeout(() => {
-            nav('/ManageSubCategory');
+            nav('/admin/manage-subcategory');
           }, 2000);
           setNewSubcategoryName("")
           setcatid("")

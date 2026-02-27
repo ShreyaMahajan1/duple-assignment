@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -7,20 +7,42 @@ export default function Sidebar() {
   const token=sessionStorage.getItem("token")
   const Emptoken=sessionStorage.getItem("Emptoken")
   const nav=useNavigate()
+  const sidebarRef = useRef(null);
+
   const logout=()=>{
     sessionStorage.clear()
     toast.success("Logout successfully")
-    if(!!Emptoken){
-    setTimeout(() => {
-      nav("/user");
-    }, 1000);
-  }
-  else if(!!token) {
     setTimeout(() => {
       nav("/");
     }, 1000);
   }
-}
+
+  // Close sidebar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const sidebar = sidebarRef.current;
+      const toggleButton = document.querySelector('.toggle-sidebar-btn');
+      const header = document.querySelector('#header');
+      
+      // Check if click is outside sidebar and not on toggle button or header
+      if (sidebar && !sidebar.contains(event.target) && 
+          toggleButton && !toggleButton.contains(event.target) &&
+          header && !header.contains(event.target)) {
+        // Close sidebar by adding toggle-sidebar class to body
+        document.body.classList.add('toggle-sidebar');
+      }
+    };
+
+    // Add both mouse and touch events for better mobile support
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, []);
+
   return (
    
 
@@ -29,11 +51,11 @@ export default function Sidebar() {
  
  
  {/* ======= Sidebar ======= */}
- <aside id="sidebar" className="sidebar">
+ <aside id="sidebar" className="sidebar" ref={sidebarRef}>
  <ul className="sidebar-nav" id="sidebar-nav">
    <li className="nav-item">
     
-     <Link className="nav-link collapsed" to={"/User/Dashboard"}>
+     <Link className="nav-link collapsed" to="dashboard">
        <i className="bi bi-grid" />
        <span>Dashboard</span>
      </Link>
@@ -46,7 +68,7 @@ export default function Sidebar() {
        className="nav-link collapsed"
        data-bs-target="#project-nav"
        data-bs-toggle="collapse"
-       to={"projects"}
+       to="view-project"
      >
        <i className="bi bi-graph-up" />
        <span>Project</span>
@@ -59,7 +81,7 @@ export default function Sidebar() {
      >
        
        <li>
-         <Link to="/User/ViewProject">
+         <Link to="view-project">
            <i className="bi bi-circle" />
            <span>View Project</span>
          </Link>
@@ -72,7 +94,7 @@ export default function Sidebar() {
        className="nav-link collapsed"
        data-bs-target="#projectteam-nav"
        data-bs-toggle="collapse"
-       to={"projects"}
+       to="view-project-team"
      >
        <i className="bi bi-person-lines-fill" />
        <span>Project Team</span>
@@ -85,7 +107,7 @@ export default function Sidebar() {
      >
        
        <li>
-         <Link to="/User/ViewProjectTeam">
+         <Link to="view-project-team">
            <i className="bi bi-circle" />
            <span>View Project Team</span>
          </Link>
@@ -96,7 +118,7 @@ export default function Sidebar() {
    
    <li className="nav-item">
      <Link
-       className="nav-link collapsed" to={"/Task"}
+       className="nav-link collapsed" to="view-task"
        data-bs-target="#task-nav"
        data-bs-toggle="collapse"
        
@@ -112,23 +134,23 @@ export default function Sidebar() {
      >
        
        <li>
-         <Link to={"/User/ViewTask"}>
+         <Link to="view-task">
            <i className="bi bi-circle" />
            <span>View Task</span>
          </Link>
        </li> 
        <li>
-         {/* <Link to={"/User/UploadTask"}>
+         <Link to="kanban-view">
            <i className="bi bi-circle" />
-           <span>Upload Task</span>
-          
-         </Link>  */}
-         </li>
+           <span>🎯 Kanban Board (NEW!)</span>
+         </Link>
+       </li>
      </ul>
    </li>
+   
    <li className="nav-item">
      <Link
-       className="nav-link collapsed" to={"/Dailyprogresspage"}
+       className="nav-link collapsed" to="reward-system"
        data-bs-target="#Progress-nav"
        data-bs-toggle="collapse"
        
@@ -143,7 +165,7 @@ export default function Sidebar() {
        data-bs-parent="#sidebar-nav"
      >
        <li>
-         <Link to={"/User/RewardSystem"}>
+         <Link to="reward-system">
            <i className="bi bi-circle" />
            <span>View Progress</span>
           
@@ -154,7 +176,7 @@ export default function Sidebar() {
    
    
    <li className="nav-item">
-     <Link className="nav-link " to={"/User/Userprofile"}>
+     <Link className="nav-link " to="profile">
        <i className="bi bi-person" />
        <span>Profile</span>
      </Link>

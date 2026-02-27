@@ -1,0 +1,40 @@
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  width: 100%;
+  padding: 40px 20px;
+}
+
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.loader-spinner {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.3rem;
+}
+
+.loader-text {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* Full page loader variant */
+.loader-container.fullpage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 9999;
+  min-height: 100vh;
+}
