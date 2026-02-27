@@ -2,7 +2,6 @@
 
 ## Base URL
 - Development: `http://localhost:5000`
-- Production: `https://cypher-task-innovate-2.onrender.com`
 
 ## Authentication
 All protected routes require a JWT token in the Authorization header:
